@@ -9,8 +9,10 @@ int visited[6];
 int V;
 int E;
 int cnt;
+int minV;
 
 void dfs(int n, int k);
+void dfs2(int n, int k, int e);
 
 int main(void) {
 	scanf("%d %d", &V, &E);
@@ -20,8 +22,12 @@ int main(void) {
 		scanf("%d %d", &n1, &n2);
 		adj[n1][n2] = 1;
 	}
-	dfs(1, 4);
-	printf("%d\n", cnt);
+	//dfs(1, 4);
+	//printf("%d\n", cnt);
+	minV = 0x7fffffff;
+	dfs2(1, 4, 0);
+	printf("%d\n", minV);
+	
 	return 0;
 }
 
@@ -40,6 +46,27 @@ void dfs(int n, int k)
 			if(adj[n][i]!=0 && visited[i]==0) // 인접하고, 미방문인 노드로 이동 
 			{
 				dfs(i, k);
+			}
+		}
+		visited[n] = 0;
+	}
+}
+
+void dfs2(int n, int k, int e)
+{
+	if(n == k)
+	{
+		if(minV > e)
+			minV = e;
+	}
+	else
+	{
+		visited[n] = 1;
+		for(int i = 1; i<=V; i++)
+		{
+			if(adj[n][i]!=0 && visited[i]==0) // 인접하고, 미방문인 노드로 이동 
+			{
+				dfs2(i, k, e+1);
 			}
 		}
 		visited[n] = 0;
