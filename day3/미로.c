@@ -2,7 +2,13 @@
 
 int maze[100][100];
 
-int find(int r, int c);
+int find(int r, int c); // dfs 재귀 
+int find2(int r, int c); // dfs 반복
+int stack[10000];
+int top;
+ 
+int find3(int r, int c); // bfs 
+
 int N;
 int main(void) 
 {
@@ -13,6 +19,7 @@ int main(void)
 	scanf("%d", &T);
 	for(int tc = 1; tc <= T; tc++)
 	{
+		
 
 		scanf("%d", &N);
 		for(int i = 0; i < N; i++)
@@ -28,11 +35,46 @@ int main(void)
 				}
 			}
 		}
-		printf("#%d %d\n", tc, find(sr, sc));	
+		printf("#%d %d\n", tc, find2(sr, sc));
+		//printf("#%d %d\n", tc, find(sr, sc));	
 	}	
 	return 0;
 }
-
+// dfs 반복
+int find2(int r, int c)
+{
+	int dr[] = {0, 1, 0, -1};
+	int dc[] = {1, 0, -1, 0};
+	
+	top = -1;
+	stack[++top] = r; // 시작점 push 
+	stack[++top] = c;
+	maze[r][c] = 1;  // 방문 표시
+	while(top != -1)
+	{
+		c = stack[top--];
+		r = stack[top--];
+		/*
+		if(maze[r][c] == 3) // visited[][]를 별도로 사용하는 경우.. 
+			return 1;
+		*/
+		for(int i = 0; i < 4; i++)
+		{
+			int nr = r + dr[i];
+			int nc = c + dc[i];
+			if(maze[nr][nc] != 1) // 벽이 아니면 인접..
+			{
+				if(maze[nr][nc] == 3)// visited[][]를 만들지 않는 경우... 
+					return 1;
+				stack[++top] = nr;
+				stack[++top] = nc;
+				maze[nr][nc] = 1;
+			}
+		}
+	}
+	return 0;
+}
+// dfs 재귀
 int find(int r, int c)
 {
 	int dr[] = {0, 1, 0, -1};
