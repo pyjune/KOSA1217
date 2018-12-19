@@ -2,7 +2,7 @@
 
 int map[8][8];
 
-int virus[8][8];
+
 int N;
 int M;
 
@@ -29,7 +29,8 @@ int bfs(void)
 {
 	int dr[] = {0, 1, 0, -1};
 	int dc[] = {1, 0, -1, 0};
-	int q[64];
+	int q[1000];
+	int virus[8][8] = {0,};
 	int front = -1;
 	int rear = -1;
 	for(int i = 0; i < N; i++)
